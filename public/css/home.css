@@ -1,0 +1,22 @@
+/*.product-hidden {
+  display: none;
+}*/
+.showProduct {
+    padding: 10px 12px;
+}
+.showProduct img {
+    height: 200px;
+    padding: 50px 25px;
+}
+.cauhinh {
+    width: 70%;
+    margin: auto;
+    padding-top: 40px;
+    text-align: left;
+    font-size: 20px;
+}
+.cauhinh {
+    padding-top: 40px;
+    text-align: left;
+    font-size: 20px;
+}
