@@ -79,13 +79,12 @@
           </a>
           <h2><a href="{{ route('home.product', $product->id) }}">{{$product->name}}</a></h2>
             <div class="price-details">
-               <div class="price-number">
-                    <p><span class="rupees price-red" id="cangiua">{!!number_format($product->price,0,",",".") . 'đ'!!}</span></p>
+              <div class="text-center">
+                <p>{!!number_format($product->price,0,",",".") . 'đ'!!}</p>
+              </div>
+              <div class="add-cart" id="{{$product->id}}" data-name="{{$product->name}}" data-price="{{$product->price}}">                              
+                  <h4><a href="#">Add to Cart</a></h4>
                 </div>
-                        <div class="add-cart" id="{{$product->id}}" data-name="{{$product->name}}" data-price="{{$product->price}}">                              
-                            <h4><a href="#">Add to Cart</a></h4>
-                         </div>
-                     <div class="clear"></div>
             </div>
              
         </div>
@@ -110,13 +109,13 @@
         </a>
         <h2><a href="{{ route('home.product', $product->id) }}">{{$product->name}}</a></h2>
           <div class="price-details">
-             <div class="price-number">
-                  <p><span class="rupees price-red" id="cangiua">{!!number_format($product->price,0,",",".") . 'đ'!!}</span></p>
+            <div class="text-center">
+              <p>{!!number_format($product->price,0,",",".") . 'đ'!!}</p>
+            </div>
+            <div class="add-cart" id="{{$product->id}}" data-name="{{$product->name}}" data-price="{{$product->price}}">                              
+                <h4><a href="#">Add to Cart</a></h4>
               </div>
-                      <div class="add-cart" id="{{$product->id}}" data-name="{{$product->name}}" data-price="{{$product->price}}">                              
-                          <h4><a href="#">Add to Cart</a></h4>
-                       </div>
-                   <div class="clear"></div>
+            <div class="clear"></div>
           </div>
            
       </div>
@@ -126,56 +125,4 @@
 </div>
 </div>
 <div class="footer">
-<div class="wrap">    
- <div class="section group">
-<!--         <div class="col_1_of_4 span_1_of_4">
-                <h4>Information</h4>
-                <ul>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="contact.html">Customer Service</a></li>
-                <li><a href="#">Advanced Search</a></li>
-                <li><a href="delivery.html">Orders and Returns</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
-                </ul>
-            </div>
-        <div class="col_1_of_4 span_1_of_4">
-            <h4>Why buy from us</h4>
-                <ul>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="contact.html">Customer Service</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="contact.html">Site Map</a></li>
-                <li><a href="#">Search Terms</a></li>
-                </ul>
-        </div>
-        <div class="col_1_of_4 span_1_of_4">
-            <h4>My account</h4>
-                <ul>
-                    <li><a href="contact.html">Sign In</a></li>
-                    <li><a href="index.html">View Cart</a></li>
-                    <li><a href="#">My Wishlist</a></li>
-                    <li><a href="#">Track My Order</a></li>
-                    <li><a href="contact.html">Help</a></li>
-                </ul>
-        </div>
-        <div class="col_1_of_4 span_1_of_4">
-            <h4>Contact</h4>
-                <ul>
-                    <li><span>+91-123-456789</span></li>
-                    <li><span>+00-123-000000</span></li>
-                </ul>
-                <div class="social-icons">
-                    <h4>Follow Us</h4>
-                      <ul>
-                          <li><a href="#" target="_blank"><img src="frontend/images/facebook.png" alt="" /></a></li>
-                          <li><a href="#" target="_blank"><img src="frontend/images/twitter.png" alt="" /></a></li>
-                          <li><a href="#" target="_blank"><img src="frontend/images/skype.png" alt="" /> </a></li>
-                          <li><a href="#" target="_blank"> <img src="frontend/images/dribbble.png" alt="" /></a></li>
-                          <li><a href="#" target="_blank"> <img src="frontend/images/linkedin.png" alt="" /></a></li>
-                          <div class="clear"></div>
-                     </ul>
-                </div>
-        </div> -->
-    </div>          
-</div>
 @endsection

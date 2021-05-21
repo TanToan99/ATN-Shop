@@ -26,6 +26,10 @@
                         </a>
                     <h2>{{$product->name}}</h2>
                     <div class="price-details">
+                        
+                        <div class="text-center">
+                            <p>{!!number_format($product->price,0,",",".") . 'đ'!!}</p>
+                        </div>
                         <div class="price-number">
                             <p><span class="rupees price-red">{!!number_format($product->price,0,",",".") . 'đ'!!}</span></p>
                         </div>

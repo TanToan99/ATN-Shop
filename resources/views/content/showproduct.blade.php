@@ -26,8 +26,8 @@
                         </a>
                     <h2><a href="{{ route('home.product', $product->id) }}">{{$product->name}}</a></h2>
                     <div class="price-details">
-                        <div class="price-number">
-                            <p><span class="rupees price-red">{!!number_format($product->price,0,",",".") . 'đ'!!}</span></p>
+                        <div class="text-center">
+                            <p>{!!number_format($product->price,0,",",".") . 'đ'!!}</p>
                         </div>
                         <div class="add-cart" id="{{$product->id}}" data-name="{{$product->name}}" data-price="{{$product->price}}">                              
                             <h4><a href="#">Add to Cart</a></h4>

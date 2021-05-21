@@ -62,7 +62,7 @@
 						    @endif
 						</div>				
 					   	<div>
-							<input type="submit" class="button" value="Đăng ký">
+							<input type="submit" class="button" value="Register">
 						</div>
 				    </form>
 			  	</div>

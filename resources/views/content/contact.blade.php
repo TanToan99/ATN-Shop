@@ -42,18 +42,13 @@
 					<div class="contact_info">
     	 				<h3>Find Us Here</h3>
 					    	  <div class="map">
-							   	   <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3833.8235641147858!2d108.21673041425562!3d16.07464294356401!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x314218374466a2b3%3A0x4ab855ae8b73564f!2zVFTEkFQgTOG6rXAgVHLDrG5oIFZpw6puIGlWaWV0dGVjaA!5e0!3m2!1svi!2s!4v1539220072040" width="100%" height="175" frameborder="0" style="border:0" allowfullscreen></iframe><br><small><a href="https://maps.google.co.in/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Lighthouse+Point,+FL,+United+States&amp;aq=4&amp;oq=light&amp;sll=26.275636,-80.087265&amp;sspn=0.04941,0.104628&amp;ie=UTF8&amp;hq=&amp;hnear=Lighthouse+Point,+Broward,+Florida,+United+States&amp;t=m&amp;z=14&amp;ll=26.275636,-80.087265" style="color:#666;text-align:left;font-size:12px">View Larger Map</a></small>
+								<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3833.674742207302!2d108.234132914808!3d16.082359588872798!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31421827a3c439f5%3A0xdec2fb897aa16a90!2zxJDhuqFpIGjhu41jIEdyZWVud2ljaCAoIFZp4buHdCBOYW0p!5e0!3m2!1sen!2s!4v1621590973457!5m2!1sen!2s" width="400" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
 							  </div>
       				</div>
       			<div class="company_address">
-				     	<h3>ATN Toys Shop</h3>
-						    	<!-- <p>500 Lorem Ipsum Dolor Sit,</p>
-						   		<p>22-56-2-9 Sit Amet, Lorem,</p>
-						   		<p>USA</p>
-				   		<p>Phone:(00) 222 666 444</p>
-				   		<p>Fax: (000) 000 00 00 0</p>
-				 	 	<p>Email: <span><a href="mailto:@example.com">info@mycompany.com</a></span></p>
-				   		<p>Follow on: <span>Facebook</span>, <span>Twitter</span></p> -->
+				    <h3>ATN Toys Shop</h3>
+					<p>Address: 685 Ngo Quyen, Son Tra, Da Nang City</p>
+					<p>Phone: 0963523490</p>
 				</div>
 			</div>
 			</div>		

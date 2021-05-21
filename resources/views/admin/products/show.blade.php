@@ -23,7 +23,7 @@
                 <ul class="parameter">
                     <li>
                         <span>Price:</span>
-                        <div>{!!number_format($product->price,0,",",".") . ' đ'!!}</div>
+                        <div>{{ number_format($product->price,0,",",".") . ' đ'}}</div>
                     </li>
                     <li>
                         <span>Quantity:</span>
@@ -33,7 +33,7 @@
                             
                 <div class="clear"></div>
                 <div class="description area_article area_articleFull">
-                    <h5>Description</h5>
+                    <h5>Description</h5 >
                      {{ $product->description }}
                 </div>
             </div>
