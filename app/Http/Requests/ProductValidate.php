@@ -28,7 +28,7 @@ class ProductValidate extends FormRequest
     {   
         $products = Product::pluck('id')->toArray();
         return [
-            "name" => "bail|required|min:6|max:50|unique:products,name,".$this->id,
+            "name" => "bail|required|min:6|max:50",
             "quantity" => "bail|required|numeric",
             "price" => "bail|required|numeric",
             "description" => "bail|required|min:20",

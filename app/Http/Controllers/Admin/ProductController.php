@@ -23,7 +23,6 @@ class ProductController extends Controller
     public function store(ProductValidate $request)
     {
         $dataProducts = $request->all();
-        //dd($dataProducts);
         $product = Product::create($dataProducts);
         if($product){
             if ($request->file('images')) {
