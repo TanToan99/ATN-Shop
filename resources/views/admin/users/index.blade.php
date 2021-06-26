@@ -1,65 +1,82 @@
-@extends('layouts.admin')
+@extends('admin.layouts.master')
 @section('content')
-<div class="app-title">
-	<div>
-	  <h1><i class="fa fa-user"></i>&nbsp;User Manager</h1>
-	</div>
-	<ul class="app-breadcrumb breadcrumb">
-	  <li class="breadcrumb-item"><i class="fa fa-user fa-lg"></i></li>
-	  <li class="breadcrumb-item"><a href="{{ route('users.index') }}">User Manager</a></li>
-	</ul>
-</div>
-<div class="container">	
-	@if (session('status'))
-        <div class="alert alert-info">{{session('status')}}</div>
-    @endif
-    	@if (session('error'))
-        <div class="alert alert-danger">{{session('error')}}</div>
-    @endif
-    <div class="">
-      <div class="tile">
-        <div class="tile-body">
-			<div class="row">
-				<div class="col-md-4">
-					<a href="{{ route('users.create') }}" class="btn btn-xs btn-info" title="Xem thông tin"><i class="ace-icon fa fa-user-plus bigger-120">&nbsp; &nbsp;Add User</i></a>
-					<a href="{{ route('users.index'	) }}" class="btn btn-success"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp; &nbsp;Refresh</a>
-				</div>
-				<div class="col-md-4"></div>
-				<div class="col-md-4">
-					<div class="row">
-			            <div class="form-group col-md-12">
-			              <input class="form-control" type="text" name="search" id="search_user" placeholder="Search ...">
-			            </div>
-		            </div>
-				</div>
-			</div>      
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="#">
+                <em class="fa fa-home"></em>
+            </a></li>
+            <li>Users Manager</li>
+            <li class="active">List Users</li>
+        </ol>
+    </div><!--/.row-->
+    
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">List Users</h1>
         </div>
-      </div>
-    </div>
-    <div id="list-user">
-		@include('admin.users.search')
-	</div>
-</div>	
-	<script src="{{ url('js/jquery-3.2.1.min.js') }}"></script>
-    <script src="{{ url('js/popper.min.js') }}"></script>
-    <script src="{{ url('js/bootstrap.min.js') }}"></script>
-	<script>
-		$(document).ready(function() {
-			$('#search_user').on('keyup',function(){
-			  	var value = $(this).val();
-				$.ajax({
-					type : 'get',
-					url:"{{ route('users.search') }}",
-					data: {'search':value},
-					success:function(data){
-						
-						$('#list-user').html(data);
-					},
-					error: function(error) {
+    </div><!--/.row-->
 
-					}
-			  });
-			})   
-		})		
-	</script>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <form action="{{ route('User.Search') }}" method="GET">
+                        <div class="input-group">
+                            <input type="text" class="form-control input-md" name="key" placeholder="Search for..." />
+                            <span class="input-group-btn"><button type="submit" class="btn btn-primary btn-md" >Search</button></span>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên Độc Giả</th>
+                                <th>Email</th>
+                                <th>Số Điện Thoại</th>
+                                <th>Chức Vụ</th>
+                                <th>Chi tiết/Xóa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if($users->count() < 1)
+                            <tr>
+                                <td colspan="7">Không có thành viên nào</td>
+                            </tr>
+                            @endif
+                            @foreach($users as $user)
+                            <tr data-row="{{$user->id}}">
+                                <td>{{$user->id}}</td>
+                                <td><a href="{{route('Order.User', $user->id)}}">{{$user->firstname}} {{$user->lastname}}</a></td>
+                                <td>{{$user->email}}</td>
+                                <td>{{$user->phone}}</td>
+                                <td>{{$user->roles == 1 ? 'Quản lý' : 'Thành viên'}}</td>
+                                <td>
+                                    <a href="{{ route('User.Show', $user->id) }}" class="btn btn-sm btn-primary">Xem chi tiết</a>
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-danger user-remove" data-id="{{$user->id}}">Xóa</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer">
+                    <center>
+                        {{ $users->links() }}
+                    </center>
+                </div>
+            </div>
+        </div><!--/.col-->
+
+    </div><!--/.row-->
+</div>  <!--/.main-->
+@endsection
+@section('javascript')
+<script type="text/javascript">
+    var api_domain = "{{ url('/admin') }}";
+    var api_token = "{{ csrf_token() }}";
+</script>
+<script type="text/javascript" src="{{ asset('admin_assets/js/main-app.js') }}"></script>
 @endsection

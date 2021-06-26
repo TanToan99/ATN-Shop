@@ -3,9 +3,10 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -15,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'email', 'password', 'role_id', 'yourname', 'address', 'phone',
+        'email', 'password', 'phone', 'gender', 'firstname', 'lastname', 'address', 'roles', 'image'
     ];
 
     /**
@@ -26,18 +27,21 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-    public function orders()
-    {
-        return $this->hasMany('App\Order');
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    public function Orders(){
+        return $this->hasMany('App\Order', 'user_id', 'id');
     }
 
-    public function role()
-    {
-        return $this->belongsTo('App\Role');
-    }
-
-    public function comments()
-    {
-        return $this->hasMany('App\Comment');
+    public function Comment(){
+        return $this->hasMany('App\Comment', 'user_id', 'id');
     }
 }

@@ -2,32 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use App\Http\Requests\LoginRequest;
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
-    use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/admin';
-
-    /**
+    
+	/**
      * Create a new controller instance.
      *
      * @return void
@@ -35,5 +16,34 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+    
+    /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show()
+    {
+        return view('admin.login');
+    }
+
+    public function login(LoginRequest $request)
+    {
+        $data = $request->except('_token');
+        if (\Auth::attempt($data)) {
+        	//dd(\Auth::user());
+        	if (\Auth::user()->roles == 1) {
+        		return redirect()->route('admin-home'); //return to admin page
+         	}
+            //$request->session()->regenerate();
+            return redirect()->route('home'); //return to home page
+        }
+        return redirect()->back()->with(['class' => 'danger', 'message' => 'Đăng nhập thất bại.']); // todo:  make error when login
+    }
+
+    public function logout(){
+        \Auth::logout();
+        return redirect()->route('AdminLoginForm');
     }
 }

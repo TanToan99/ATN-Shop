@@ -2,95 +2,80 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
-use App\Product;
 use Illuminate\Http\Request;
-use Validator;
-use App\Http\Request\CategoryValidate;
+use App\Book;
+use App\Category;
+use DB;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+	public function listBooksById($category_id,Request $request)
     {
-        //
+        $cate= Category::whereHas('books' , function($query) {
+            $query->where('quantity' , '>' ,0  );
+        }, '>', 0)->get();
+        $paginate = isset($request->paginate) ? $request->paginate : 10;
+        $orderby= isset($request->orderby) ? $request->orderby: 0;
+        switch ($orderby) {
+            case 1:  //name Z-A
+            $data = Book::where('category_id','=',$category_id)->orderBy('name','DESC')->paginate($paginate);
+            break;
+            case 2: // newest
+            $data = Book::where('category_id','=',$category_id)->orderBy('created_at','DESC')->paginate($paginate);
+            break;
+            case 3: //oldest
+            $data = Book::where('category_id','=',$category_id)->orderBy('created_at')->paginate($paginate);
+            break;
+            case 4: //rating up
+            $data = Book::withCount(['ratings as average_rating' => function($query) {$query->select(DB::raw('coalesce(avg(star_number),0)')); }])->where('category_id','=',$category_id)->orderBy('average_rating')->paginate($paginate);
+            break;
+            case 5: //rating down
+            $data = Book::withCount(['ratings as average_rating' => function($query) {$query->select(DB::raw('coalesce(avg(star_number),0)')); }])->where('category_id','=',$category_id)->orderByDesc('average_rating')->paginate($paginate);
+            break;
+            default: //name A-Z
+            $data = Book::where('category_id','=',$category_id)->orderBy('name')->paginate($paginate);
+            break;
+        }
+
+        if($data->toArray()['total'] == 0 || $data == null){
+            return abort(404);
+        }
+        return view('category',[
+            'data' => $data,
+            'categories' => $cate,
+            'page_selection' => $paginate,
+            'orderby' => $orderby
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Category $category)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Category $category)
-    {
-        //
-    }
-    //showproduct
-    public function showproduct($id)
-    {
-        $products = Product::with('images','category')->where('category_id', $id)->get();
-        $category = Category::find($id);
-        $categories = Category::where('parent_id', '=', 1)->get();
-        return view('content.product_category', compact('products', 'categories','category'));
+    public function listBookPaginate(Request $request){
+        $category_id = $request->category;
+        $paginate = $request->pagination;
+        $orderby= isset($request->orderby) ? $request->orderby: 0;
+        switch ($orderby) {
+            case 1:  //name Z-A
+            $data = Book::where('category_id','=',$category_id)->orderBy('name','DESC')->paginate($paginate);
+            break;
+            case 2: // newest
+            $data = Book::where('category_id','=',$category_id)->orderBy('created_at','DESC')->paginate($paginate);
+            break;
+            case 3: //oldest
+            $data = Book::where('category_id','=',$category_id)->orderBy('created_at')->paginate($paginate);
+            break;
+            case 4: //rating up
+            $data = Book::withCount(['ratings as average_rating' => function($query) {$query->select(DB::raw('coalesce(avg(star_number),0)')); }])->where('category_id','=',$category_id)->orderBy('average_rating')->paginate($paginate);
+            break;
+            case 5: //rating down
+            $data = Book::withCount(['ratings as average_rating' => function($query) {$query->select(DB::raw('coalesce(avg(star_number),0)')); }])->where('category_id','=',$category_id)->orderByDesc('average_rating')->paginate($paginate);
+            break;
+            default: //name A-Z
+            $data = Book::where('category_id','=',$category_id)->orderBy('name')->paginate($paginate);
+            break;
+        }
+        return view('layouts.list_book',[
+           'data' => $data,
+           'page_selection' => $paginate,
+           'orderby' => $request->orderby
+       ]);
     }
 }

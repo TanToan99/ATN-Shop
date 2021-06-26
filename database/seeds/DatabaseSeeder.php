@@ -1,20 +1,19 @@
 <?php
 
-use App\Role;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Seed the application's database.
      *
      * @return void
      */
     public function run()
     {
-        //$this->call(RolesTableSeeder::class);
-        Role::firstOrCreate(['name' => 'admin']);
-        Role::firstOrCreate(['name' => 'user']);
-        $this->call(UsersTableSeeder::class);
+        //$this->call(UserSeeder::class);
+        //$this->call(CategorySeeder::class);
+        $this->call(BookSeeder::class);
+        $this->call(ConfigSeeder::class);
     }
 }

@@ -4,165 +4,128 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ManageUser;
-use Illuminate\Support\Facades\DB;
-use App\Role;
+use App\Http\Requests\UsersRequest;
+use App\Http\Requests\UserUpdateRequest;
+use App\Http\Requests\UserRequest;
 use App\User;
-use App\Order;
-use App\Comment;
+use App\Config;
+use Validator;
+use File;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $users = User::orderBy('id', 'desc')->paginate(5);
-        $roles = Role::all();
-        return view('admin.users.index', compact('users', 'roles'));
+    public function index(){
+    	$users = User::orderBy('id', 'DESC')->paginate(50);
+    	return view('admin.users.index', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $roles = Role::all();
-        return view('admin.users.create', compact('roles'));
-    }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'username' => 'required|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
-            'confirm_password' => 'required|same:password',
-            'yourname' => 'required',
-            'phone' => 'required|numeric',
-            'address' => 'required',
-        ],
-        [
-            'username.required' => 'Tên đăng nhập không được để trống',
-            'username.max' => 'Tên đăng nhập không được quá 255 ký tự',
-            'email.required' => 'Email đăng nhập không được để trống',
-            'email.email' => 'Email phải đúng định dạng',
-            'email.unique' => 'Email đăng nhập không được trùng',
-            'password.required' => 'Mật khẩu không được để trống',
-            'password.min' => 'Mật khẩu không được nhỏ hơn 6 ký tự',
-            'confirm_password.same' => 'Mật khẩu không trùng khớp',
-            'confirm_password.required' => 'Mật khẩu nhập lại không được để trống',
-            'yourname.required' => 'Họ và tên không được để trống',
-            'phone.required' => 'Số điện thoại không được để trống',
-            'phone.numeric' => 'Số điện thoại phải là ký tự số',
-            'address.required' => 'Địa chỉ không được để trống',        
-        ]
-        );
-
-        $data = [
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'yourname' => $request->yourname,
-            'phone' => $request->phone, 
-            'address' => $request->address,
-            'role_id' => $request->role_id
-        ];
-        User::create($data);
-        $request->session()->flash('status', 'Thêm người dùng thành công!');
-        return redirect()->route('users.index');
+    public function create(){
+    	return view('admin.users.create');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
-    {
-        return view('admin.users.view', compact('user'));
+    public function store(UsersRequest $request){
+    	$data = $request->except('_token');
+    	$data['password'] = bcrypt($data['password']);
+        if($request->hasFile('img')){
+            $file = $request->file('img');
+            $filename = '/images/avatars/'.md5(time()).'.jpg';
+            $file->move(public_path('/images/avatars/'), $filename);
+            $data['image'] = $filename;
+        }
+    	if($user = User::create($data)){
+    		return redirect()->route('User.Show', $user->id)->with(['class' => 'success', 'message' => 'Thêm thành viên thành công.']);
+    	}
+        return redirect()->back()->with(['class' => 'danger', 'message' => 'Lỗi hệ thống, thử lại sau.']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
-    {
-        $roles = Role::all();
-        return view('admin.users.edit', compact('roles', 'user'));
+    public function edit($id){
+        if($user = User::find($id)){
+            return view('admin.users.edit', compact('user'));
+        }
+        return redirect()->route('User.List');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
-    {
-
-        $data = $request->all();
-        $data = $request->validate([
-            'username' => 'required',
-            'yourname' => 'required',
-            'phone' => 'required|numeric',
-            'address' => 'required',
-        ],
-        [
-            'username.required' => 'Tên đăng nhập không được để trống',
-            'yourname.required' => 'Họ và tên không được để trống',
-            'phone.required' => 'Số điện thoại không được để trống',
-            'phone.numeric' => 'Số điện thoại phải là ký tự số',
-            'address.required' => 'Địa chỉ không được để trống',        
-        ]
-        );
-        $user->update($data);
-        $request->session()->flash('status', 'Chỉnh sửa thành công!');
-        return redirect()->route('users.index');
+    public function update(UserUpdateRequest $request, $id){
+    	$data = $request->except('_token', 'email');
+    	if($user = User::find($id)){
+            $data['password'] = isset($data['password']) ? bcrypt($data['password']) : $user->password;
+            if($request->hasFile('img')) {
+                $file = request()->file('img');
+                $filename = '/images/avatars/'.md5(time()).'.jpg';
+                $file->move(public_path('/images/avatars/'), $filename);
+                $data['image'] = $filename;
+                if(File::exists(public_path().$user->image)) {
+                    File::delete(public_path().$user->image);
+                }
+            }
+            if ($user->update($data)) {
+                return redirect()->route('User.Show', $user->id)->with(['class' => 'success', 'message' => 'Thay đổi thông tin thành viên thành công.']);
+            }else{
+                return redirect()->route('User.Show', $user->id)->with(['class' => 'danger', 'message' => 'Lỗi, thử lại sau.']);
+            }
+    	}
+    	return redirect()->route('User.List');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request)
-    {
-        // $user->delete();
-        // return redirect()->route('users.index');
-        $order_id = Order::where('user_id', $request->user_id)->first();
-        $comment = Comment::where('user_id', $request->user_id)->first();
-        if($order_id || $comment) {
-            $request->session()->flash('error', 'Không được xóa người dùng');
-            return redirect()->route('users.index');
-        } else {
-            $user = User::findOrFail($request->user_id);
-            $user->delete();
-            $request->session()->flash('status', 'Xóa thành công!');
-            return redirect()->route('users.index');
+    public function UpdateExpiry(request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'price' => 'integer|min:0'
+        ],[
+            'id.required' => 'Thành viên không được trống',
+            'price.min' => 'Số tiền gia hạn tối thiểu là 0đ'
+        ]);
+        if($validator->passes()){
+            $config = Config::where('name', 'price_per_day')->first();
+            $price_per_day = ($config !== null) ? $config->value : 0;
+            if($user = User::find($request->id)){
+                $days = $request->price/$price_per_day;
+                $user->account_expiry_date = date("Y-m-d H:i:s", strtotime('+'.$days.' day', strtotime($user->account_expiry_date)));
+                if($user->save()){
+                    return response()->json(['error' => 0, 'message' => 'Đã gia hạn thành công']);
+                }
+            }
+            return response()->json(['error' => 1, 'message' => 'Lỗi, thử lại sau']);
+        }
+        else{
+            return response()->json(['error' => 1, 'message' => $validator->errors()->first()]);
         }
     }
 
-    public function search(Request $request)
-    {
-        $search = $request->search;
-        $users = User::where('username', 'LIKE', "%$search%")->orderBy('id', 'desc')->paginate(5);
-        return view('admin.users.search', compact('users'));
-    } 
+    public function show($id){
+        if($user = User::find($id)){
+            return view('admin.users.detail', compact('user'));
+        }
+        return redirect()->route('User.List');
+    }
+
+    public function destroy(Request $request){
+        $data = $request->only('id');
+        if($user = User::find($data['id'])){
+            if($user->delete()){
+                if(File::exists(public_path().$user->image)) {
+                    File::delete(public_path().$user->image);
+                }
+                return response()->json(['error' => 0, 'message' => 'Xóa thành viên thành công']);
+            }
+        }
+        return response()->json(['error' => 1, 'message' => 'Không tìm thấy thành viên']);
+    }
+
+    public function search(request $request){
+        $users = User::WhereRaw("concat(firstname, ' ', lastname) like '%$request->key%' ")->orWhere('email', 'like', "%$request->key%")->orWhere('phone', 'like', "%$request->key%")->paginate(50);
+        return view('admin.users.index', compact('users'));
+    }
+
+    public function apiSearch(request $request){
+        $key = ($request->q !== null) ? $request->q : '';
+        $users = User::WhereRaw("concat(firstname, ' ', lastname) like '%$key%' ")->orWhere('email', 'like', "%$key%")->orWhere('phone', 'like', "%$key%")->get();
+        return response()->json($users->map(function($item){
+            $data = [
+                'id' => $item->id,
+                'text' => $item->firstname.' '.$item->lastname.' - '.$item->email
+            ];
+            return $data;
+        }));
+    }
 }
