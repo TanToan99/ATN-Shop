@@ -7,6 +7,7 @@ use App\Book;
 use App\OrderDetail;
 use App\Observers\BookObserver;
 use App\Observers\OrderDetailObserver;
+use Illuminate\Routing\UrlGenerator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,8 +26,12 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(UrlGenerator $url)
     {
-        Book::observe(BookObserver::class);
+        if(env('REDIRECT_HTTPS'))
+		{
+			$url->forceScheme('https');
+		}
+        //Book::observe(BookObserver::class);
     }
 }
