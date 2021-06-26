@@ -7,14 +7,14 @@ use App\Book;
 use App\Order;
 use Illuminate\Support\Facades\DB;
 
-class Cartcontroller extends controller
+class CartController extends Controller
 {
 	public function cart(){
 		return view('cart');
 	}
 
-	public function addtocart($book_id){
-		$book = book::find($book_id);
+	public function addToCart($book_id){
+		$book = Book::find($book_id);
 		if(!$book){
 			return -1;
 		}
@@ -45,7 +45,7 @@ class Cartcontroller extends controller
 		return 1;
 	}
 
-	public function remove(request $request){
+	public function remove(Request $request){
 		$book_id = $request->id;
 		if($book_id){
 			$cart = session()->get('cart');
