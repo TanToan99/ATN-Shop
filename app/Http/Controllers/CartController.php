@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Book;
 use App\Order;
 use Illuminate\Support\Facades\DB;
-use Auth;
 
 class Cartcontroller extends controller
 {
