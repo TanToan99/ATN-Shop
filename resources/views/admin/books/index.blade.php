@@ -6,14 +6,14 @@
 			<li><a href="#">
 				<em class="fa fa-home"></em>
 			</a></li>
-			<li>Books Manager</li>
-			<li class="active">List Books</li>
+			<li>Toys Manager</li>
+			<li class="active">List Toys</li>
 		</ol>
 	</div><!--/.row-->
 	
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header">List Books</h1>
+			<h1 class="page-header">List Toys</h1>
 		</div>
 	</div><!--/.row-->
 
@@ -33,19 +33,19 @@
 						<thead>
 							<tr>
 								<th>ID</th>
-								<th>Tên Sách</th>
-								<th>Tác Giả</th>
-								<th>Năm Xuất Bản</th>
-								<th>Danh Mục</th>
-								<th>Số lượng</th>
-								<th>Giá Thuê</th>
-								<th>Chỉnh Sửa/Xóa</th>
+								<th>Name</th>
+								<th>Author</th>
+								<th>Year publish</th>
+								<th>Shop</th>
+								<th>Quantity</th>
+								<th>Price</th>
+								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
 							@if($books->count() < 1)
 							<tr>
-								<td colspan="8">Không có sách nào</td>
+								<td colspan="8">No data</td>
 							</tr>
 							@endif
 							@foreach($books as $book)
@@ -58,8 +58,8 @@
 								<td>{{$book->quantity}}</td>
 								<td>{{ number_format($book->price) }}đ</td>
 								<td>
-									<a href="{{ route('Book.Edit', $book->id) }}" class="btn btn-sm btn-primary">Chỉnh sửa</a>
-									<a href="javascript:void(0);" class="btn btn-sm btn-danger book-remove" data-id="{{$book->id}}">Xóa</a>
+									<a href="{{ route('Book.Edit', $book->id) }}" class="btn btn-sm btn-primary">Edit</a>
+									<a href="javascript:void(0);" class="btn btn-sm btn-danger book-remove" data-id="{{$book->id}}">Delete</a>
 								</td>
 							</tr>
 							@endforeach

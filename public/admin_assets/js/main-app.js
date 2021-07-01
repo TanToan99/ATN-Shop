@@ -244,7 +244,7 @@ $(document).ready(function() {
     //report remove
     $('.report-remove').on('click', function() {
         var lostID = $(this).attr('data-id');
-        alertify.confirm('Xác nhận', 'Độc giả đã trã sách?', function() {
+        alertify.confirm('Confirm', 'Confirm', function() {
             $.ajax({
                 url: api_domain + '/lost-books/deleted',
                 method: 'DELETE',
@@ -267,7 +267,7 @@ $(document).ready(function() {
     //received book
     $('.received-book').on('click', function() {
         var orderID = $(this).attr('data-id');
-        alertify.confirm('Xác nhận', 'Độc giả đã nhận sách?', function() {
+        alertify.confirm('Confirm', 'Confirm?', function() {
             $.ajax({
                 url: api_domain + '/order/updated',
                 method: 'PUT',
@@ -316,7 +316,7 @@ $(document).ready(function() {
     //return book
     $('.return-book').on('click', function() {
         var orderID = $(this).attr('data-id');
-        alertify.confirm('Xác nhận', 'Độc giả đã trã sách?', function() {
+        alertify.confirm('Confirm', 'Confirm?', function() {
             $.ajax({
                 url: api_domain + '/order/updated',
                 method: 'PUT',
@@ -340,7 +340,7 @@ $(document).ready(function() {
     //Remove Order
     $('.order-remove').on('click', function() {
         var orderID = $(this).attr('data-id');
-        alertify.confirm('Xác nhận xóa', 'Bạn chắn chắn muốn xóa đơn hàng?', function() {
+        alertify.confirm('Submit', 'Submit?', function() {
             $.ajax({
                 url: api_domain + '/order/deleted',
                 method: 'DELETE',
@@ -351,7 +351,7 @@ $(document).ready(function() {
                 success: function(data) {
                     if (data.error == 0) {
                         $('[data-row=' + orderID + ']').remove();
-                        alertify.success('Bạn đã xóa đơn hàng.');
+                        alertify.success('Success.');
                     } else {
                         alertify.error(data.message);
                     }
@@ -362,7 +362,7 @@ $(document).ready(function() {
 
     $('.contact-remove').on('click', function() {
         var contactID = $(this).attr('data-id');
-        alertify.confirm('Xác nhận', 'Bạn chắc chắn muốn bỏ qua?', function() {
+        alertify.confirm('Submit', 'Submit?', function() {
             $.ajax({
                 url: api_domain + '/contacts/deleted',
                 method: 'DELETE',
@@ -478,7 +478,7 @@ jQuery(document).delegate('a.add-record', 'click', function(e) {
     element.appendTo('#tbl_posts_body');
     element.find('.sn').html(size);
     element.find('.book-record').select2({
-        placeholder: 'Chọn sách',
+        placeholder: 'Chọn toys',
         ajax: {
             url: api_domain + '/books/api/search',
             dataType: 'json',

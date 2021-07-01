@@ -100,24 +100,24 @@
 					show += '<p>Status : <span class="btn-sm btn-danger">Cancelled<span></span></span></p>'
 					break;
 					case 4:
-					show += '<p>Status : <span class="btn-sm btn-info">Borrow<span></span></span></p>'
+					show += '<p>Status : <span class="btn-sm btn-info">Transfering<span></span></span></p>'
 					break;
 					case 5:
 					show += '<p>Status : <span class="btn-sm btn-success">Success<span></span></span></p>'
 					break;
 				}
 				if(data['0'].date_borrow != null){
-					show += '<p>Date Borrow: '+data['0'].date_borrow +'</p>';
+					show += '<p>Date Order: '+data['0'].date_borrow +'</p>';
 				}
 				if(data['0'].date_give_back != null){
-					show += '<p>Date Give Back: '+data['0'].date_give_back +'</p>';
+					show += '<p>Date Success: '+data['0'].date_give_back +'</p>';
 				}
 				if(data['0'].note != null){
 					show += '<p>Note: '+data['0'].note +'</p>';
 				}
-				show += '<table class="table"><thead><tr><th>Book</th><th>Category</th><th>Price</th></tr></thead><tbody>';
+				show += '<table class="table"><thead><tr><th>Toy</th><th>Shop</th><th>Price</th></tr></thead><tbody>';
 				$.each(data['1'], function( i, l ) {
-					show += '<tr><td>'+l.name+'</td><td>'+l.category+'VND</td><td>'+l.price+'VND</td></tr>';
+					show += '<tr><td>'+l.name+'</td><td>'+l.category+'</td><td>'+l.price+'VND</td></tr>';
 				});
 				show += '</tbody><tfoot><tr><td colspan="2">Total: '+data['2']+'VND</td></tr></tfoot></table></div>';
 				$('#detailModal .modal-body').html(show);

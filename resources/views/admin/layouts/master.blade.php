@@ -57,14 +57,14 @@
 			</li>
 			<li><a href="{{ route('Category.List') }}"><em class="fa fa-folder-open">&nbsp;</em> Shop</a></li>
 			<li class="parent "><a data-toggle="collapse" href="#books-item">
-				<em class="fa fa-book">&nbsp;</em> Books <span data-toggle="collapse" class="icon pull-right"><em class="fa fa-plus"></em></span>
+				<em class="fa fa-book">&nbsp;</em> Toys <span data-toggle="collapse" class="icon pull-right"><em class="fa fa-plus"></em></span>
 				</a>
 				<ul class="children collapse" id="books-item">
 					<li><a class="" href="{{ route('Book.Create') }}">
-						<span class="fa fa-arrow-right">&nbsp;</span> Add New Book
+						<span class="fa fa-arrow-right">&nbsp;</span> Add New Toys
 					</a></li>
 					<li><a class="" href="{{ route('Book.List') }}">
-						<span class="fa fa-arrow-right">&nbsp;</span> List Books
+						<span class="fa fa-arrow-right">&nbsp;</span> List Toys
 					</a></li>
 				</ul>
 			</li>
