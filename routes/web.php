@@ -1,7 +1,7 @@
 <?php
 
 Auth::routes();
-Auth::routes(['verify' => false]);
+Auth::routes(['verify' => true]);
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home',function(){
