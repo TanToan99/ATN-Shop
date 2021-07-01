@@ -1,7 +1,9 @@
 <?php
 
+use Illuminate\Routing\Route;
+
 Auth::routes();
-Auth::routes(['verify' => true]);
+Auth::routes(['verify' => false]);
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home',function(){
