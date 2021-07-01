@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Routing\Route;
-
 Auth::routes();
 Auth::routes(['verify' => false]);
 
