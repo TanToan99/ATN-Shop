@@ -86,7 +86,7 @@ class OrderController extends Controller
                     break;
                 case 3:
                     if($order->status == 2){
-                        // nếu đang chờ lấy nhưng bị hủy sẽ trã số lượng sách bị ẩn lại
+                        // nếu đang chờ lấy nhưng bị hủy sẽ trã số lượng
                         $this->returnBook($order->orderdetail);
                     }
                     $order->note = $request->note;
@@ -95,8 +95,6 @@ class OrderController extends Controller
                     $order->date_borrow = now();
                     break;
                 case 5:
-                    // trã lại số sách bị ẩn
-                    $this->returnBook($order->orderdetail);
                     $order->date_give_back = now();
                     break;
             }
@@ -106,21 +104,21 @@ class OrderController extends Controller
             }
 
     	}
-    	return response()->json(['error' => 1, 'message' => 'Không tìm thấy đơn hàng']);
+    	return response()->json(['error' => 1, 'message' => 'Can not find order']);
+    }
+
+    public function returnBook($book){
+        $book->map(function($item){
+            $book = Book::find($item->book->id);
+            $book->quantity += $item->quantity;
+            return $book->save();
+        });
     }
 
     public function hiddenBook($book){
         $book->map(function($item){
             $book = Book::find($item->book->id);
             $book->quantity -= ($item->quantity > $book->quantity) ? $book->quantity : $item->quantity;
-            return $book->save();
-        });
-    }
-
-    public function returnBook($book){
-        $book->map(function($item){
-            $book = Book::find($item->book->id);
-            $book->quantity += ($item->quantity - $item->lostbook->count() < 0) ? 0 : $item->quantity - $item->lostbook->count();
             return $book->save();
         });
     }

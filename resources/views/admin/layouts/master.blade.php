@@ -91,7 +91,7 @@
 						<span class="fa fa-arrow-right">&nbsp;</span> Order Confirmed
 					</a></li>
 					<li><a class="" href="{{ route('Order.List', 4) }}">
-						<span class="fa fa-arrow-right">&nbsp;</span> Order Borrowing
+						<span class="fa fa-arrow-right">&nbsp;</span> Order Transfering
 					</a></li>
 					<li><a class="" href="{{ route('Order.List', 5) }}">
 						<span class="fa fa-arrow-right">&nbsp;</span> Order History
@@ -104,9 +104,6 @@
 					</a></li>
 				</ul>
 			</li>
-			<li><a href="{{ route('Comment.List') }}"><em class="fa fa-comment">&nbsp;</em> Comments</a></li>
-			<li><a href="{{ route('Transaction.List') }}"><em class="fa fa-dollar">&nbsp;</em> Transaction</a></li>
-			<li><a href="{{ route('Contact.List') }}"><em class="fa fa-envelope-square">&nbsp;</em> Contact us</a></li>
 			<li><a href="{{route('logout')}}"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
 		</ul>
 	</div><!--/.sidebar-->

@@ -13,18 +13,12 @@
 	
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header">Danh sách đơn hàng</h1>
+			<h1 class="page-header">List order</h1>
 		</div>
 	</div><!--/.row-->
 
 	<div class="row">
 		<div class="col-md-12">
-			@if($orders_expired->count() > 0)
-			<div class="alert bg-warning" role="alert"><em class="fa fa-lg fa-warning">&nbsp;</em> Có {{$orders_expired->count()}} đơn hàng quá giờ đến thư viện, <a href="{{route('Order.List', 2)}}" class="text-primary">Chi tiết</a><a href="#" class="pull-right" data-dismiss="alert" aria-label="Close"><em class="fa fa-lg fa-close" aria-hidden="true"></em></a></div>
-			@endif
-			@if(session('class'))
-			<div class="alert bg-{{session('class')}}" role="alert"><em class="fa fa-lg fa-warning">&nbsp;</em>{{session('message')}}</div>
-			@endif
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<form action="{{ route('Order.Search', $status) }}" method="GET">
@@ -38,12 +32,12 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th>Mã Đơn Hàng</th>
-								<th>Tên Độc Giả</th>
-								<th>Thời Gian Đăng Ký Thuê</th>
-								<th>Tình trạng</th>
-								<th>Xem Chi Tiết</th>
-								<th>Xử Lý</th>
+								<th>ID</th>
+								<th>Author</th>
+								<th>Time order</th>
+								<th>Status</th>
+								<th>Details</th>
+								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -57,46 +51,41 @@
 								<td>
 									@switch($order->status)
 									@case(1)
-									<span class="btn-sm btn-warning">Chờ xử lý</span>
+									<span class="btn-sm btn-warning">Waiting</span>
 									@break
 									@case(2)
-									@if($orders_expired->where('id', $order->id)->count() > 0)
-									<span class="btn-sm btn-warning">Quá hạn nhận sách</span>
-									@else
-									<span class="btn-sm btn-warning">Chờ nhận sách</span>
-									@endif
+									<span class="btn-sm btn-warning">Submit order</span>
 									@break
 									@case(3)
 									<span class="btn-sm btn-danger">Đã hủy</span>
 									@break
 									@case(4)
-									<span class="btn-sm btn-primary">Đang thuê</span>
+									<span class="btn-sm btn-primary">Transfering</span>
 									@break
 									@case(5)
-									<span class="btn-sm btn-success">Đã trã</span>
+									<span class="btn-sm btn-success">OK</span>
 									@break
 									@endswitch
 								</td>
-								<td><a href="javascript:void(0);" class="btn btn-sm btn-info order-show" data-id="{{$order->id}}">Xem chi tiết</a></td>
+								<td><a href="javascript:void(0);" class="btn btn-sm btn-info order-show" data-id="{{$order->id}}">View</a></td>
 								<td class="table-button">
 									@switch($order->status)
 									@case(1)
-									<a href="javascript:void(0);" class="btn btn-sm btn-success allow-order" data-id="{{$order->id}}">Duyệt</a>
-									<a href="javascript:void(0);" class="btn btn-sm btn-danger refused-order" data-id="{{$order->id}}">Từ chối</a>
+									<a href="javascript:void(0);" class="btn btn-sm btn-success allow-order" data-id="{{$order->id}}">Confirm</a>
+									<a href="javascript:void(0);" class="btn btn-sm btn-danger refused-order" data-id="{{$order->id}}">Cancel</a>
 									@break
 									@case(2)
-									<a href="javascript:void(0);" class="btn btn-sm btn-success received-book" data-id="{{$order->id}}">Đã nhận sách</a>
-									<a href="javascript:void(0);" class="btn btn-sm btn-danger refused-order" data-id="{{$order->id}}">Hủy</a>
+									<a href="javascript:void(0);" class="btn btn-sm btn-success received-book" data-id="{{$order->id}}">Transfering</a>
+									<a href="javascript:void(0);" class="btn btn-sm btn-danger refused-order" data-id="{{$order->id}}">Cancel</a>
 									@break
 									@case(3)
-									<a href="javascript:void(0);" class="btn btn-sm btn-danger order-remove" data-id="{{$order->id}}">Xóa</a>
+									<a href="javascript:void(0);" class="btn btn-sm btn-danger order-remove" data-id="{{$order->id}}">Delete</a>
 									@break
 									@case(4)
-									<a href="javascript:void(0);" class="btn btn-sm btn-success return-book" data-id="{{$order->id}}">Trã sách</a>
-									<a href="{{route('Order.Report', $order->id)}}" target="_blank" class="btn btn-sm btn-danger">Báo mất sách</a>
+									<a href="javascript:void(0);" class="btn btn-sm btn-success return-book" data-id="{{$order->id}}">Complete</a>
 									@break
 									@case(5)
-									<a href="javascript:void(0);" class="btn btn-sm btn-danger order-remove" data-id="{{$order->id}}">Xóa</a>
+									<a href="javascript:void(0);" class="btn btn-sm btn-danger order-remove" data-id="{{$order->id}}">Delete</a>
 									@break
 									@endswitch
 									
@@ -122,7 +111,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
     	<div class="panel panel-default">
-			<div class="panel-heading">Xem Chi Tiết Đơn Đặt Hàng</div>
+			<div class="panel-heading">View Details</div>
 			<div class="panel-body"></div>
 		</div>
     </div>

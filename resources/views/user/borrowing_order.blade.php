@@ -29,18 +29,8 @@ Cart
 		</div>
 		@else
 		<div class="alert alert-success">
-			<p>When you read complete, go to library and order new books !</p>
+			<p>When you received toys, order will transfer to history!</p>
 		</div>
-		@php
-		$date = Auth::user()->account_expiry_date;
-		@endphp
-		@if($date <= now())
-		<div class="alert alert-danger">
-			<p>Your account has been expiry, please go to library to give back book or enewed your account!</p>
-		</div>
-		@else
-		<div id="DateCountdown" data-date="{{$date}}" style="width: 100%;"></div>
-		@endif
 		<h4>Order number :{{ $order->id }}</h4>
 		<p>Date order : {{ $order->date_borrow }}</p>
 		<table id="cart" class="table table-hover table-condensed">

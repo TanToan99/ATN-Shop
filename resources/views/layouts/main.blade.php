@@ -24,7 +24,6 @@
 						<li><a href="mailto:info@example.com"><span class="align-middle"><i class="fas fa-envelope-open-text"></i></span>info@example.com</a></li>
 					</ul>
 					<ul>
-						<li><a href="{{ route('contact_us') }}">Contact Us</a></li>
 						@if(Auth::check())
 						@if(Auth::user()->roles == 1)
 						<li><a href="{{ route('admin-home') }}">Admin Controll </a></li>

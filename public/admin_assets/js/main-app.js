@@ -167,17 +167,17 @@ $(document).ready(function() {
     $('.order-show').on('click', function() {
         var orderID = $(this).attr('data-id');
         $.get(api_domain + '/order/show', { id: orderID }, function(data) {
-            var html = '<p>Độc Giả: <b>' + data.readers + '</b></p>' +
-                '<p>Số điện thoại: ' + data.contact +
-                '<p>Tình Trạng: ' + viewOrderStatus(data.status) +
-                '<p>Thời Gian Đăng Ký Thuê: <b>' + data.created_time + '</b></p>';
+            var html = '<p>Author: <b>' + data.readers + '</b></p>' +
+                '<p>Phone: ' + data.contact +
+                '<p>Status: ' + viewOrderStatus(data.status) +
+                '<p>Time Order: <b>' + data.created_time + '</b></p>';
             if (data.status >= 5) {
-                html += '<p>Thời Gian Nhận Sách: <b>' + data.date_borrow + '</b></p>' +
-                    '<p>Thời Gian Trã Sách: <b>' + data.date_give_back + '</b></p>';
+                html += '<p>Time submit order: <b>' + data.date_borrow + '</b></p>' +
+                    '<p>Time receive : <b>' + data.date_give_back + '</b></p>';
             }
-            html += '<p>Tổng Số Lượng Sách Thuê: <b>' + data.count + '</b></p>' +
-                '<p>Ghi chú: <b>' + data.note + '</b></p>' +
-                '<table class="table"><thead><tr><th>Tên Sách</th><th>Số Lượng</th><th>Giá Thuê</th><th>Tổng Tiền</th></tr></thead><tbody>';
+            html += '<p>Total toys: <b>' + data.count + '</b></p>' +
+                '<p>Note: <b>' + data.note + '</b></p>' +
+                '<table class="table"><thead><tr><th>Name</th><th>Quantity</th><th>Price</th><th>Total</th></tr></thead><tbody>';
             $.each(data.book, function(i, l) {
                 html += '<tr>' +
                     '<td>' + l.name + '</td>' +
@@ -195,7 +195,7 @@ $(document).ready(function() {
     //allow order
     $('.allow-order').on('click', function() {
         var orderID = $(this).attr('data-id');
-        alertify.confirm('Xác nhận', 'Bạn đồng ý cho thuê sách?', function() {
+        alertify.confirm('Submit', 'Submit order', function() {
             $.ajax({
                 url: api_domain + '/order/updated',
                 method: 'PUT',
@@ -207,7 +207,7 @@ $(document).ready(function() {
                 success: function(data) {
                     if (data.error == 0) {
                         $('[data-row=' + orderID + ']').remove();
-                        alertify.success('Trạng thái chuyển sang chờ nhận sách');
+                        alertify.success('Submit success');
                     } else {
                         alertify.success(message);
                     }
