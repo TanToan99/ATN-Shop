@@ -45,7 +45,7 @@ class OrderController extends Controller
             DB::rollBack();
             throw new Exception($e->getMessage());
         }
-        return redirect()->route('Order.List', 1)->with(['class' => 'success', 'message' => 'Thêm đơn hàng thành công']);
+        return redirect()->route('Order.List', 1)->with(['class' => 'success', 'message' => 'Add success!']);
         
     }
 
